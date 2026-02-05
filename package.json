@@ -2,25 +2,47 @@
   "name": "conference-explorer-web",
   "version": "0.1.0",
   "private": true,
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "db:push": "drizzle-kit push",
+    "db:studio": "drizzle-kit studio",
+    "db:generate": "drizzle-kit generate",
+    "db:migrate": "drizzle-kit migrate --config ./drizzle.config.ts",
+    "seed": "tsx ./scripts/seed.ts"
   },
   "dependencies": {
+    "@dotenvx/dotenvx": "^1.52.0",
+    "@heroui/react": "^2.8.8",
+    "@heroui/theme": "^2.4.26",
+    "@vercel/postgres": "^0.10.0",
+    "drizzle-orm": "^0.38.2",
+    "framer-motion": "^12.31.0",
+    "lucide-react": "^0.563.0",
     "next": "16.1.6",
+    "nuqs": "^2.4.1",
+    "pg": "^8.14.0",
     "react": "19.2.3",
     "react-dom": "19.2.3"
   },
   "devDependencies": {
+    "@faker-js/faker": "^9.6.0",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
+    "@types/pg": "^8.11.11",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "drizzle-kit": "^0.30.5",
+    "drizzle-seed": "^0.3.1",
     "eslint": "^9",
     "eslint-config-next": "16.1.6",
     "tailwindcss": "^4",
+    "tsx": "^4.19.3",
     "typescript": "^5"
   }
 }
