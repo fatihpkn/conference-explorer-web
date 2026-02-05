@@ -88,32 +88,25 @@ This will create:
 
 ```
 conference-explorer-web/
-├── app/
-│   ├── (core)/              # Core features
-│   ├── (features)/           # Feature-flagged modules
-│   │   ├── _components/     # Shared components (ErrorBoundary, etc.)
-│   │   ├── conferences/     # Conference feature
-│   │   ├── speakers/        # Speaker feature
-│   │   └── search/          # Search feature (nuqs)
-│   ├── globals.css
-│   ├── layout.tsx
-│   └── page.tsx
-├── lib/
-│   └── db/                   # Database layer
-│       ├── schema.ts         # Drizzle schemas
-│       ├── index.ts          # Database connection
-│       └── types.ts          # TypeScript types
-├── scripts/
-│   ├── dev.sh               # Development startup script
-│   ├── prod.sh              # Production startup script
-│   └── seed.sh              # Database seeding script
-├── docker-compose.yml        # Docker Compose configuration
-├── Dockerfile               # Production Dockerfile
-├── Dockerfile.dev           # Development Dockerfile
-├── drizzle.config.ts        # Drizzle Kit configuration
-├── seed.ts                  # Seed script
-└── .env.local               # Environment variables
+├── app/                           # Next.js App Router pages
+├── entities/                      # Domain entities (API, types, schemas)
+├── features/                      # Feature modules (components, ui)
+├── shared/                        # Shared utilities (db, heroui, nuqs)
+├── widgets/                       # Page widgets
+├── scripts/                       # Dev, prod, seed scripts
+├── docker-compose.yml
+├── Dockerfile
+├── drizzle.config.ts
+├── seed.ts
+└── .env.local
 ```
+
+### Architecture Pattern
+
+- **entities/** - Domain layer (business logic, types, API functions)
+- **features/** - Feature modules (components, hooks, utils)
+- **shared/** - Cross-cutting concerns (DB, UI, utilities)
+- **widgets/** - Page-level compositions
 
 ## Available Scripts
 
