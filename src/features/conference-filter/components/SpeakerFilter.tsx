@@ -1,10 +1,11 @@
 "use client";
 
-import { use, useTransition } from "react";
-import { useQueryState } from "nuqs";
-import { conferenceFilterParsers } from "@/shared/lib/nuqs/conferenceFilters.client";
 import type { Speaker } from "@/shared/lib/db/types/speaker.type";
+import { conferenceFilterParsers } from "@/shared/lib/nuqs/conferenceFilters.client";
 import { Select, SelectItem } from "@heroui/react";
+import { useQueryState } from "nuqs";
+import { use, useTransition } from "react";
+import { selectClassNames } from "./selectStyles";
 
 interface SpeakerFilterProps {
   speakersPromise: Promise<Speaker[]>;
@@ -24,23 +25,18 @@ export default function SpeakerFilter({ speakersPromise }: SpeakerFilterProps) {
 
   return (
     <Select
-      label="Konuşmacı"
-      placeholder="Tüm Konuşmacılar"
+      label="Speaker"
       selectedKeys={speakerId ? [String(speakerId)] : []}
       onSelectionChange={(keys) => {
         const selected = Array.from(keys)[0];
         setSpeakerId(selected ? Number(selected) : null);
       }}
-      classNames={{
-        trigger: "h-12",
-      }}
+      classNames={selectClassNames}
       isClearable
     >
-      <>
-        {speakers.map((speaker) => (
-          <SelectItem key={String(speaker.id)}>{speaker.name}</SelectItem>
-        ))}
-      </>
+      {speakers.map((speaker) => (
+        <SelectItem key={String(speaker.id)}>{speaker.name}</SelectItem>
+      ))}
     </Select>
   );
 }

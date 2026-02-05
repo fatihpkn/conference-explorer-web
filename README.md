@@ -176,6 +176,7 @@ docker-compose up -d --build
 - **Database**: PostgreSQL 16 with pgvector
 - **ORM**: Drizzle ORM
 - **Styling**: Tailwind CSS 4
+- **Component Library**: HeroUI
 - **Search Params**: nuqs (type-safe URL search params)
 - **Testing**: ESLint
 
@@ -186,5 +187,6 @@ To learn more about the technologies used:
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Drizzle ORM Documentation](https://orm.drizzle.team)
 - [pgvector Documentation](https://github.com/pgvector/pgvector)
+- [HeroUI Documentation](https://www.heroui.com/docs/guide/introduction)
 - [nuqs Documentation](https://github.com/47ng/nuqs)
 - [Docker Documentation](https://docs.docker.com)

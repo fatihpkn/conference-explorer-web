@@ -1,14 +1,16 @@
 import { db } from "@/shared/lib/db";
-import { conferences } from "@/shared/lib/db/schemas/conference.schema";
-import { gte } from "drizzle-orm";
-import type { ConferenceListItem } from "../model/types";
 import { conferenceMedia } from "@/shared/lib/db/schemas/conference-media.schema";
-import { eq } from "drizzle-orm";
+import { conferences } from "@/shared/lib/db/schemas/conference.schema";
+import { sleep } from "@/shared/utils/sleep";
+import { eq, gte } from "drizzle-orm";
+import type { ConferenceListItem } from "../model/types";
 
 export async function getUpcomingConferences(
   limit: number = 3
 ): Promise<ConferenceListItem[]> {
   const now = new Date();
+
+  await sleep();
 
   const results = await db.query.conferences.findMany({
     where: gte(conferences.startDate, now),

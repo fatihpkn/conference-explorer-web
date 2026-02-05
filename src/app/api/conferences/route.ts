@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getConferences } from "@/entities/conference";
 import { loadConferenceFilters } from "@/shared/lib/nuqs/conferenceFilters.server";
+import { sleep } from "@/shared/utils/sleep";
 
 export async function GET(request: Request) {
   const filters = loadConferenceFilters(new URL(request.url).searchParams);

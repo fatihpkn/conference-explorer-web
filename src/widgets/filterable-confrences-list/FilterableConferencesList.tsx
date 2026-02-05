@@ -45,13 +45,28 @@ export async function FilterableConferencesList({
   const speakersPromise = getSpeakers();
 
   return (
-    <div className="space-y-6">
-      <ConferenceFilter
-        tagsPromise={tagsPromise}
-        yearsPromise={yearsPromise}
-        locationsPromise={locationsPromise}
-        speakersPromise={speakersPromise}
-      />
+    <div className="space-y-10">
+      <section className="relative">
+        <div className="relative space-y-8">
+          <div className="grid gap-8 max-w-2xl">
+            <div className="space-y-4">
+              <h1 className="text-3xl text-default-900 font-semibold md:text-4xl">
+                Browse Talks
+              </h1>
+              <p className="text-base text-default-500 md:text-lg">
+                Deep-dives into modern architecture, developer experience and
+                cloud infrastructure. Discover insights from industry leaders.
+              </p>
+            </div>
+          </div>
+          <ConferenceFilter
+            tagsPromise={tagsPromise}
+            yearsPromise={yearsPromise}
+            locationsPromise={locationsPromise}
+            speakersPromise={speakersPromise}
+          />
+        </div>
+      </section>
       <Suspense fallback={<ConferenceSkeleton count={limit} />}>
         <ConferencesListSection
           dataPromise={initialDataPromise}

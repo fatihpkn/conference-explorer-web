@@ -1,14 +1,16 @@
 "use client";
 
-import { Suspense } from "react";
-import type { Tag } from "@/shared/lib/db/types/tag.type";
 import type { Speaker } from "@/shared/lib/db/types/speaker.type";
+import type { Tag } from "@/shared/lib/db/types/tag.type";
+import { conferenceFilterParsers } from "@/shared/lib/nuqs/conferenceFilters.client";
+import { useQueryState } from "nuqs";
+import { Suspense, useTransition } from "react";
+import FilterSkeleton from "../ui/FilterSkeleton";
+import LocationFilter from "./LocationFilter";
 import SearchFilter from "./SearchFilter";
+import SpeakerFilter from "./SpeakerFilter";
 import TagFilter from "./TagFilter";
 import YearFilter from "./YearFilter";
-import LocationFilter from "./LocationFilter";
-import SpeakerFilter from "./SpeakerFilter";
-import FilterSkeleton from "../ui/FilterSkeleton";
 
 interface ConferenceFilterProps {
   tagsPromise: Promise<Tag[]>;
@@ -23,29 +25,41 @@ export default function ConferenceFilter({
   locationsPromise,
   speakersPromise,
 }: ConferenceFilterProps) {
+  const [, startTransition] = useTransition();
+  const [searchQuery, setSearchQuery] = useQueryState(
+    "search",
+    conferenceFilterParsers.search.withOptions({
+      startTransition,
+      shallow: false,
+    })
+  );
+
   return (
-    <div className="space-y-4">
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
-        <SearchFilter />
+    <div className="mt-2 lg:mt-10">
+      <div className="space-y-8">
+        <SearchFilter
+          value={searchQuery ?? ""}
+          onChange={(value) =>
+            startTransition(() => {
+              void setSearchQuery(value && value.length > 0 ? value : null);
+            })
+          }
+        />
 
-        <Suspense fallback={<FilterSkeleton />}>
-          <TagFilter tagsPromise={tagsPromise} />
-        </Suspense>
-
-        {/* Year Filter */}
-        <Suspense fallback={<FilterSkeleton />}>
-          <YearFilter yearsPromise={yearsPromise} />
-        </Suspense>
-
-        {/* Location Filter */}
-        <Suspense fallback={<FilterSkeleton />}>
-          <LocationFilter locationsPromise={locationsPromise} />
-        </Suspense>
-
-        {/* Speaker Filter */}
-        <Suspense fallback={<FilterSkeleton />}>
-          <SpeakerFilter speakersPromise={speakersPromise} />
-        </Suspense>
+        {/* <div className="grid grid-cols-4 items-center gap-3">
+          <Suspense fallback={<FilterSkeleton />}>
+            <YearFilter yearsPromise={yearsPromise} />
+          </Suspense>
+          <Suspense fallback={<FilterSkeleton />}>
+            <SpeakerFilter speakersPromise={speakersPromise} />
+          </Suspense>
+          <Suspense fallback={<FilterSkeleton />}>
+            <TagFilter tagsPromise={tagsPromise} />
+          </Suspense>
+          <Suspense fallback={<FilterSkeleton />}>
+            <LocationFilter locationsPromise={locationsPromise} />
+          </Suspense>
+        </div> */}
       </div>
     </div>
   );

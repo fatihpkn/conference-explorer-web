@@ -1,10 +1,11 @@
 "use client";
 
 import { use, useTransition } from "react";
-import { useQueryState } from "nuqs";
-import { conferenceFilterParsers } from "@/shared/lib/nuqs/conferenceFilters.client";
 import type { Tag } from "@/shared/lib/db/types/tag.type";
+import { conferenceFilterParsers } from "@/shared/lib/nuqs/conferenceFilters.client";
 import { Select, SelectItem } from "@heroui/react";
+import { useQueryState } from "nuqs";
+import { selectClassNames } from "./selectStyles";
 
 interface TagFilterProps {
   tagsPromise: Promise<Tag[]>;
@@ -23,16 +24,14 @@ export default function TagFilter({ tagsPromise }: TagFilterProps) {
 
   return (
     <Select
-      label="Konu"
-      placeholder="Tüm Konular"
+      label="Topic"
+      placeholder="All Topics"
       selectedKeys={tagId ? [String(tagId)] : []}
       onSelectionChange={(keys) => {
         const selected = Array.from(keys)[0];
         setTagId(selected ? Number(selected) : null);
       }}
-      classNames={{
-        trigger: "h-12",
-      }}
+      classNames={selectClassNames}
       isClearable
     >
       {tags.map((tag) => (

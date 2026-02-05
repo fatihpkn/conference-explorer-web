@@ -1,7 +1,8 @@
 import { db } from "@/shared/lib/db";
-import { conferenceTags } from "@/shared/lib/db/schemas/conference-tag.schema";
 import { conferenceSpeakers } from "@/shared/lib/db/schemas/conference-speaker.schema";
-import { and, desc, eq, ilike, or, sql, inArray } from "drizzle-orm";
+import { conferenceTags } from "@/shared/lib/db/schemas/conference-tag.schema";
+import { sleep } from "@/shared/utils/sleep";
+import { and, desc, eq, ilike, inArray, or, sql } from "drizzle-orm";
 import { conferences } from "../model/schema";
 import type {
   ConferenceFilters,
@@ -20,6 +21,8 @@ export async function getConferences(
   const offset = (page - 1) * limit;
 
   const conditions = [];
+
+  await sleep();
 
   if (filters.search) {
     conditions.push(

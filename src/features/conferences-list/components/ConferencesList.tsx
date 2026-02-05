@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useQueryState } from "nuqs";
-import { ConferenceCard, ConferenceSkeleton } from "../ui";
+import { ConferenceCard, ConferenceCardSkeleton } from "../ui";
 import type {
   ConferenceListItem,
   PaginatedResponse,
@@ -126,18 +126,48 @@ export default function ConferencesList({
   }, [fetchNextPage]);
 
   return (
-    <div className="space-y-6">
-      <div className="grid gap-6 grid-cols-1 md:grid-cols-3 xl:grid-cols-4">
-        {conferences.map((conference) => (
-          <ConferenceCard key={conference.id} conference={conference} />
-        ))}
+    <div className="space-y-8">
+      <div className="relative">
+        <div className="grid gap-6 grid-cols-1 md:grid-cols-2">
+          {conferences.map((conference) => (
+            <ConferenceCard key={conference.id} conference={conference} />
+          ))}
+
+          {isLoading &&
+            Array.from({ length: 2 }).map((_, index) => (
+              <ConferenceCardSkeleton key={`loading-${index}`} />
+            ))}
+        </div>
       </div>
-      <div ref={loadMoreRef} aria-hidden="true" className="h-2" />
-      {isLoading && <ConferenceSkeleton count={limit} />}
-      {!hasMore && !isLoading && (
-        <p className="text-center text-sm text-default-foreground/70">
-          Tüm konferanslar yüklendi.
-        </p>
+
+      {/* Load More Trigger */}
+      <div ref={loadMoreRef} aria-hidden="true" className="h-4" />
+
+      {/* End State */}
+      {!hasMore && !isLoading && conferences.length > 0 && (
+        <div className="text-center py-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#0d7ff2]/10 rounded-full text-[#0d7ff2]">
+            <div className="w-2 h-2 rounded-full bg-[#0d7ff2] animate-pulse" />
+            <span className="text-sm font-medium">
+              Tüm konferanslar yüklendi
+            </span>
+          </div>
+        </div>
+      )}
+
+      {/* Empty State */}
+      {conferences.length === 0 && !isLoading && (
+        <div className="text-center py-16">
+          <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#223649]/10 flex items-center justify-center">
+            <div className="w-8 h-8 rounded-full bg-[#223649]/20" />
+          </div>
+          <h3 className="text-lg font-semibold text-white mb-2">
+            Konferans bulunamadı
+          </h3>
+          <p className="text-sm text-[#90adcb]">
+            Filtrelerinizi değiştirmeyi deneyin
+          </p>
+        </div>
       )}
     </div>
   );

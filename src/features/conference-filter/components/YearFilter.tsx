@@ -1,9 +1,10 @@
 "use client";
 
-import { use, useTransition } from "react";
-import { useQueryState } from "nuqs";
 import { conferenceFilterParsers } from "@/shared/lib/nuqs/conferenceFilters.client";
 import { Select, SelectItem } from "@heroui/react";
+import { useQueryState } from "nuqs";
+import { use, useTransition } from "react";
+import { selectClassNames } from "./selectStyles";
 
 interface YearFilterProps {
   yearsPromise: Promise<number[]>;
@@ -23,16 +24,14 @@ export default function YearFilter({ yearsPromise }: YearFilterProps) {
 
   return (
     <Select
-      label="Yıl"
-      placeholder="Tüm Yıllar"
+      label="Year"
+      placeholder="All Years"
       selectedKeys={year ? [String(year)] : []}
       onSelectionChange={(keys) => {
         const selected = Array.from(keys)[0];
         setYear(selected ? Number(selected) : null);
       }}
-      classNames={{
-        trigger: "h-12",
-      }}
+      classNames={selectClassNames}
       isClearable
     >
       {years.map((y) => (

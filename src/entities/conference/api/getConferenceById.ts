@@ -2,10 +2,13 @@ import { db } from "@/shared/lib/db";
 import { eq } from "drizzle-orm";
 import { conferences } from "../model/schema";
 import type { ConferenceDetail } from "../model/types";
+import { sleep } from "@/shared/utils/sleep";
 
 export async function getConferenceById(
   id: number
 ): Promise<ConferenceDetail | null> {
+  await sleep();
+
   const conference = await db.query.conferences.findFirst({
     where: eq(conferences.id, id),
     with: {

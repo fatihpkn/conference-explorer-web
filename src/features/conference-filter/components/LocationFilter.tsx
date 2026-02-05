@@ -1,9 +1,10 @@
 "use client";
 
-import { use, useTransition } from "react";
-import { useQueryState } from "nuqs";
 import { conferenceFilterParsers } from "@/shared/lib/nuqs/conferenceFilters.client";
 import { Select, SelectItem } from "@heroui/react";
+import { useQueryState } from "nuqs";
+import { use, useTransition } from "react";
+import { selectClassNames } from "./selectStyles";
 
 interface LocationFilterProps {
   locationsPromise: Promise<string[]>;
@@ -25,16 +26,14 @@ export default function LocationFilter({
 
   return (
     <Select
-      label="Konum"
-      placeholder="Tüm Konumlar"
+      label="Location"
+      placeholder="All Locations"
       selectedKeys={location ? [location] : []}
       onSelectionChange={(keys) => {
         const selected = Array.from(keys)[0];
         setLocation(selected ? String(selected) : null);
       }}
-      classNames={{
-        trigger: "h-12",
-      }}
+      classNames={selectClassNames}
       isClearable
     >
       {locations.map((loc) => (
