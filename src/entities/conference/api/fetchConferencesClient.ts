@@ -1,4 +1,4 @@
-import { serializeConferenceFilters } from "@/shared/lib/nuqs/conferenceFilters.client";
+import { serializeConferenceFilters } from "@/features/conference-filter/lib/conferenceFilters.client";
 import type {
   ConferenceFilters,
   ConferenceListItem,

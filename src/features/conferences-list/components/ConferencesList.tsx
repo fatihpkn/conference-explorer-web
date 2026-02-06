@@ -8,7 +8,7 @@ import type {
   PaginatedResponse,
 } from "@/entities/conference/client";
 import { fetchConferencesClient } from "@/entities/conference/client";
-import { conferenceFilterParsers } from "@/shared/lib/nuqs/conferenceFilters.client";
+import { conferenceFilterParsers } from "@/features/conference-filter/lib/conferenceFilters.client";
 
 interface ConferencesListProps {
   initialData: ConferenceListItem[];
