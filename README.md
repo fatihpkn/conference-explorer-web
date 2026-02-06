@@ -69,20 +69,17 @@ npm run dev
 
 ### 4. Database Seeding
 
-Seed the database with dummy data for development:
+Seed the database with sample data using either of the following commands:
 
 ```bash
-# Using the seed script
+# Loads environment variables via dotenvx and runs the seed command
 ./scripts/seed.sh
 
 # Or directly
-npm run seed
+pnpm seed
 ```
 
-This will create:
-
-- 20 fake speakers
-- 50 fake conferences
+The seeding script generates 30 speakers, 100 conferences, and the related tag/speaker connections via Drizzle. Because the shell script invokes `pnpm run seed` through `dotenvx`, make sure your database connection values are available in `.env.local` before running it.
 
 ## Project Structure
 
@@ -147,27 +144,6 @@ docker-compose down -v
 # Or manually
 docker-compose up -d --build
 ```
-
-## Database Schema
-
-### Conferences Table
-
-- `id`: Serial primary key
-- `name`: Conference name
-- `description`: Conference description
-- `location`: Conference location
-- `start_date`: Start date
-- `end_date`: End date
-- `embedding`: Vector (1536 dimensions) for pgvector similarity search
-- `created_at`: Timestamp
-
-### Speakers Table
-
-- `id`: Serial primary key
-- `name`: Speaker name
-- `bio`: Speaker biography
-- `email`: Speaker email
-- `created_at`: Timestamp
 
 ## Technology Stack
 

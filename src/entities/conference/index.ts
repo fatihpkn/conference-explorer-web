@@ -9,4 +9,3 @@ export { getSpeakers } from "./api/getSpeakers";
 export { getFeaturedTags } from "./api/getFeaturedTags";
 export { getConferenceById } from "./api/getConferenceById";
 export { getUpcomingConferences } from "./api/getUpcomingConferences";
-export type { ConferenceFilters, ConferenceListItem } from "./model/types";

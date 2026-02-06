@@ -1,5 +1,5 @@
 import { Container } from "@/shared/ui/container";
-import { FilterableConferencesList } from "@/widgets/filterable-confrences-list/FilterableConferencesList";
+import { FilterableConferencesList } from "@/widgets/filterable-conferences-list/FilterableConferencesList";
 
 export const metadata = {
   title: "Conferences",

@@ -10,10 +10,10 @@ import type {
   PaginatedResponse,
 } from "@/entities/conference";
 import ConferenceFilter from "@/features/conference-filter/components/ConferenceFilter";
-import ConferencesList from "@/features/conferences-list/components/ConferencesList";
 import ConferenceSkeleton from "@/features/conferences-list/ui/skeleton";
 import { searchParamsCache } from "@/shared/lib/nuqs/conferenceFilters.server";
 import { Suspense } from "react";
+import ConferencesListSection from "./components/ConferencesListSection";
 
 interface FilterableConferencesListProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -44,6 +44,8 @@ export async function FilterableConferencesList({
   const locationsPromise = getLocations();
   const speakersPromise = getSpeakers();
 
+  const searchKey = `${normalizedFilters.location}-${normalizedFilters.search}-${normalizedFilters.tagId}-${normalizedFilters.year}-${normalizedFilters.speakerId}`;
+
   return (
     <div className="space-y-10">
       <section className="relative">
@@ -67,7 +69,7 @@ export async function FilterableConferencesList({
           />
         </div>
       </section>
-      <Suspense fallback={<ConferenceSkeleton count={limit} />}>
+      <Suspense key={searchKey} fallback={<ConferenceSkeleton count={limit} />}>
         <ConferencesListSection
           dataPromise={initialDataPromise}
           filters={normalizedFilters}
@@ -125,31 +127,4 @@ async function loadInitialConferences({
     data: aggregatedData,
     meta: initialMeta,
   };
-}
-
-async function ConferencesListSection({
-  dataPromise,
-  filters,
-  limit,
-}: {
-  dataPromise: Promise<PaginatedResponse<ConferenceListItem>>;
-  filters: {
-    search?: string;
-    tagId?: number;
-    year?: number;
-    location?: string;
-    speakerId?: number;
-  };
-  limit: number;
-}) {
-  const { data, meta } = await dataPromise;
-
-  return (
-    <ConferencesList
-      initialData={data}
-      initialMeta={meta}
-      filters={filters}
-      limit={limit}
-    />
-  );
 }

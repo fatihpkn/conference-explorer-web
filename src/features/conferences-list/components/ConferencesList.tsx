@@ -6,11 +6,9 @@ import { ConferenceCard, ConferenceCardSkeleton } from "../ui";
 import type {
   ConferenceListItem,
   PaginatedResponse,
-} from "@/entities/conference";
-import {
-  conferenceFilterParsers,
-  serializeConferenceFilters,
-} from "@/shared/lib/nuqs/conferenceFilters.client";
+} from "@/entities/conference/client";
+import { fetchConferencesClient } from "@/entities/conference/client";
+import { conferenceFilterParsers } from "@/shared/lib/nuqs/conferenceFilters.client";
 
 interface ConferencesListProps {
   initialData: ConferenceListItem[];
@@ -34,8 +32,7 @@ export default function ConferencesList({
   const [conferences, setConferences] = useState(initialData);
   const [meta, setMeta] = useState(initialMeta);
   const [isLoading, setIsLoading] = useState(false);
-  const [page, setPage] = useState(initialMeta.page ?? 1);
-  const [pageQuery, setPageQuery] = useQueryState(
+  const [, setPageQuery] = useQueryState(
     "page",
     conferenceFilterParsers.page.withOptions({ shallow: true })
   );
@@ -45,43 +42,28 @@ export default function ConferencesList({
   useEffect(() => {
     setConferences(initialData);
     setMeta(initialMeta);
-    setPage(initialMeta.page ?? 1);
   }, [initialData, initialMeta, filters]);
 
-  useEffect(() => {
-    if (!pageQuery || Number.isNaN(pageQuery)) {
-      return;
-    }
-    setPage(pageQuery);
-  }, [pageQuery]);
-
   const hasMore = useMemo(() => {
-    return page < meta.totalPages;
-  }, [page, meta.totalPages]);
+    return (meta.page ?? 1) < (meta.totalPages ?? 1);
+  }, [meta.page, meta.totalPages]);
 
   const fetchNextPage = useCallback(async () => {
     if (isLoading || !hasMore) return;
-    const nextPage = page + 1;
+    const nextPage = (meta.page ?? 1) + 1;
     setIsLoading(true);
     try {
-      const requestUrl = serializeConferenceFilters("/api/conferences", {
+      const body = await fetchConferencesClient({
         limit,
         page: nextPage,
-        search: filters.search ?? null,
-        tagId: filters.tagId ?? null,
-        year: filters.year ?? null,
-        location: filters.location ?? null,
-        speakerId: filters.speakerId ?? null,
+        search: filters.search,
+        tagId: filters.tagId,
+        year: filters.year,
+        location: filters.location,
+        speakerId: filters.speakerId,
       });
-      const response = await fetch(requestUrl);
-      if (!response.ok) {
-        throw new Error("Konferanslar yüklenirken bir hata oluştu");
-      }
-      const body =
-        (await response.json()) as PaginatedResponse<ConferenceListItem>;
       setConferences((prev) => [...prev, ...body.data]);
       setMeta(body.meta);
-      setPage(body.meta.page);
       setPageQuery(body.meta.page);
     } catch (error) {
       console.error(error);
@@ -91,7 +73,7 @@ export default function ConferencesList({
   }, [
     isLoading,
     hasMore,
-    page,
+    meta.page,
     filters.search,
     filters.tagId,
     filters.year,

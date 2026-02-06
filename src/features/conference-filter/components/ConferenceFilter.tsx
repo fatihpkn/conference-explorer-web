@@ -46,7 +46,7 @@ export default function ConferenceFilter({
           }
         />
 
-        {/* <div className="grid grid-cols-4 items-center gap-3">
+        <div className="grid grid-cols-4 items-center gap-3">
           <Suspense fallback={<FilterSkeleton />}>
             <YearFilter yearsPromise={yearsPromise} />
           </Suspense>
@@ -59,7 +59,7 @@ export default function ConferenceFilter({
           <Suspense fallback={<FilterSkeleton />}>
             <LocationFilter locationsPromise={locationsPromise} />
           </Suspense>
-        </div> */}
+        </div>
       </div>
     </div>
   );
