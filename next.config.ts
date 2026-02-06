@@ -8,6 +8,9 @@ const nextConfig: NextConfig = {
       new URL("https://images.unsplash.com/**"),
     ],
   },
+  experimental: {
+    viewTransition: true,
+  },
 };
 
 export default nextConfig;

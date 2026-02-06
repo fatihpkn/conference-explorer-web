@@ -46,7 +46,7 @@ export default function ConferenceFilter({
           }
         />
 
-        <div className="grid grid-cols-4 items-center gap-3">
+        <div className="grid grid-cols-4 items-center gap-3 max-w-3xl mx-auto">
           <Suspense fallback={<FilterSkeleton />}>
             <YearFilter yearsPromise={yearsPromise} />
           </Suspense>

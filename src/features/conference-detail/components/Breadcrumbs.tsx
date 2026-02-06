@@ -1,12 +1,20 @@
 "use client";
 
+import { use } from "react";
+import type { ConferenceDetail } from "@/entities/conference";
 import {
-  Breadcrumbs as HeroUIBreadcrumbs,
   BreadcrumbItem,
+  Breadcrumbs as HeroUIBreadcrumbs,
 } from "@heroui/react";
 import { ChevronRight } from "lucide-react";
 
-export default function Breadcrumbs() {
+export default function Breadcrumbs({
+  conferencePromise,
+}: {
+  conferencePromise: Promise<ConferenceDetail | null>;
+}) {
+  const conference = use(conferencePromise);
+
   return (
     <HeroUIBreadcrumbs
       separator={
@@ -32,7 +40,7 @@ export default function Breadcrumbs() {
         Konferanslar
       </BreadcrumbItem>
       <BreadcrumbItem className="text-slate-900 dark:text-white text-sm font-medium">
-        Konferans Detayları
+        {conference?.name}
       </BreadcrumbItem>
     </HeroUIBreadcrumbs>
   );

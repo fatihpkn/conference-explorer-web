@@ -9,7 +9,7 @@ import SpeakersList from "@/features/conference-detail/components/SpeakersList";
 import ResourcesCard from "@/features/conference-detail/components/ResourcesCard";
 import RelatedContent from "@/features/conference-detail/components/RelatedContent";
 import Breadcrumbs from "@/features/conference-detail/components/Breadcrumbs";
-import { Suspense } from "react";
+import { Suspense, ViewTransition } from "react";
 
 interface ConferenceDetailProps {
   conferenceId: number;
@@ -24,7 +24,21 @@ export default async function ConferenceDetail({
     <div>
       {/* Breadcrumbs & Back Button */}
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
-        <Breadcrumbs />
+        <Suspense
+          fallback={
+            <ViewTransition>
+              <div className="flex flex-row gap-4 animate-pulse mt-2">
+                <div className="h-6 w-24 bg-slate-200 dark:bg-[#223649] rounded mb-4"></div>
+                <div className="h-6 w-24 bg-slate-200 dark:bg-[#223649] rounded mb-4"></div>
+                <div className="h-6 w-24 bg-slate-200 dark:bg-[#223649] rounded mb-4"></div>
+              </div>
+            </ViewTransition>
+          }
+        >
+          <ViewTransition>
+            <Breadcrumbs conferencePromise={conferencePromise} />
+          </ViewTransition>
+        </Suspense>
         <BackButton />
       </div>
 
@@ -33,12 +47,16 @@ export default async function ConferenceDetail({
         <div className="lg:col-span-8 flex flex-col gap-6">
           {/* Media Player */}
           <Suspense fallback={<ConferenceMediaSkeleton />}>
-            <ConferenceMedia conferencePromise={conferencePromise} />
+            <ViewTransition>
+              <ConferenceMedia conferencePromise={conferencePromise} />
+            </ViewTransition>
           </Suspense>
 
           {/* Talk Description */}
           <Suspense fallback={<ConferenceInfoSkeleton />}>
-            <ConferenceInfo conferencePromise={conferencePromise} />
+            <ViewTransition>
+              <ConferenceInfo conferencePromise={conferencePromise} />
+            </ViewTransition>
           </Suspense>
 
           {/* Speakers List */}
@@ -53,7 +71,9 @@ export default async function ConferenceDetail({
               </div>
             }
           >
-            <SpeakersList conferencePromise={conferencePromise} />
+            <ViewTransition>
+              <SpeakersList conferencePromise={conferencePromise} />
+            </ViewTransition>
           </Suspense>
         </div>
 
@@ -70,7 +90,9 @@ export default async function ConferenceDetail({
               </div>
             }
           >
-            <SpeakerBioCard conferencePromise={conferencePromise} />
+            <ViewTransition>
+              <SpeakerBioCard conferencePromise={conferencePromise} />
+            </ViewTransition>
           </Suspense>
 
           <Suspense
@@ -84,7 +106,9 @@ export default async function ConferenceDetail({
               </div>
             }
           >
-            <ResourcesCard conferencePromise={conferencePromise} />
+            <ViewTransition>
+              <ResourcesCard conferencePromise={conferencePromise} />
+            </ViewTransition>
           </Suspense>
 
           <RelatedContent />

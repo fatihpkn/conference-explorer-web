@@ -14,8 +14,9 @@ export function ConferenceCardSkeleton() {
           <div className="h-3 w-12 rounded-full bg-default-200" />
         </div>
 
-        <div className="space-y-2">
+        <div className="space-y-3">
           <div className="h-5 w-3/4 rounded bg-default-200" />
+          <div className="h-4 w-full rounded bg-default-100" />
           <div className="h-4 w-full rounded bg-default-100" />
         </div>
 

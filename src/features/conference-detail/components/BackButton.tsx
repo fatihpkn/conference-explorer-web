@@ -9,7 +9,7 @@ export default function BackButton() {
 
   return (
     <Button
-      onPress={() => router.back()}
+      onPress={router.back}
       variant="bordered"
       color="default"
       startContent={<ArrowLeft className="w-4 h-4" strokeWidth={1.5} />}

@@ -12,7 +12,7 @@ import type {
 import ConferenceFilter from "@/features/conference-filter/components/ConferenceFilter";
 import ConferenceSkeleton from "@/features/conferences-list/ui/skeleton";
 import { searchParamsCache } from "@/shared/lib/nuqs/conferenceFilters.server";
-import { Suspense } from "react";
+import { Suspense, ViewTransition } from "react";
 import ConferencesListSection from "./components/ConferencesListSection";
 
 interface FilterableConferencesListProps {
@@ -69,12 +69,21 @@ export async function FilterableConferencesList({
           />
         </div>
       </section>
-      <Suspense key={searchKey} fallback={<ConferenceSkeleton count={limit} />}>
-        <ConferencesListSection
-          dataPromise={initialDataPromise}
-          filters={normalizedFilters}
-          limit={limit}
-        />
+      <Suspense
+        key={searchKey}
+        fallback={
+          <ViewTransition>
+            <ConferenceSkeleton count={limit} />
+          </ViewTransition>
+        }
+      >
+        <ViewTransition name="conference-list">
+          <ConferencesListSection
+            dataPromise={initialDataPromise}
+            filters={normalizedFilters}
+            limit={limit}
+          />
+        </ViewTransition>
       </Suspense>
     </div>
   );

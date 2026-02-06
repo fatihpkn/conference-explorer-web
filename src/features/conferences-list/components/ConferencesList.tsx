@@ -1,6 +1,14 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import {
+  ViewTransition,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import { useQueryState } from "nuqs";
 import { ConferenceCard, ConferenceCardSkeleton } from "../ui";
 import type {
@@ -29,9 +37,10 @@ export default function ConferencesList({
   filters,
   limit,
 }: ConferencesListProps) {
+  const [isPending, startTransition] = useTransition();
+
   const [conferences, setConferences] = useState(initialData);
   const [meta, setMeta] = useState(initialMeta);
-  const [isLoading, setIsLoading] = useState(false);
   const [, setPageQuery] = useQueryState(
     "page",
     conferenceFilterParsers.page.withOptions({ shallow: true })
@@ -48,30 +57,44 @@ export default function ConferencesList({
     return (meta.page ?? 1) < (meta.totalPages ?? 1);
   }, [meta.page, meta.totalPages]);
 
+  const transitionGroupName = useMemo(() => {
+    return [
+      filters.search ?? "",
+      filters.tagId ?? "all",
+      filters.year ?? "any",
+      filters.location ?? "",
+      filters.speakerId ?? "any",
+    ].join("-");
+  }, [
+    filters.search,
+    filters.tagId,
+    filters.year,
+    filters.location,
+    filters.speakerId,
+  ]);
+
   const fetchNextPage = useCallback(async () => {
-    if (isLoading || !hasMore) return;
+    if (isPending || !hasMore) return;
     const nextPage = (meta.page ?? 1) + 1;
-    setIsLoading(true);
     try {
-      const body = await fetchConferencesClient({
-        limit,
-        page: nextPage,
-        search: filters.search,
-        tagId: filters.tagId,
-        year: filters.year,
-        location: filters.location,
-        speakerId: filters.speakerId,
+      startTransition(async () => {
+        const body = await fetchConferencesClient({
+          limit,
+          page: nextPage,
+          search: filters.search,
+          tagId: filters.tagId,
+          year: filters.year,
+          location: filters.location,
+          speakerId: filters.speakerId,
+        });
+        setConferences((prev) => [...prev, ...body.data]);
+        setMeta(body.meta);
+        setPageQuery(body.meta.page);
       });
-      setConferences((prev) => [...prev, ...body.data]);
-      setMeta(body.meta);
-      setPageQuery(body.meta.page);
     } catch (error) {
       console.error(error);
-    } finally {
-      setIsLoading(false);
     }
   }, [
-    isLoading,
     hasMore,
     meta.page,
     filters.search,
@@ -81,6 +104,7 @@ export default function ConferencesList({
     filters.speakerId,
     limit,
     setPageQuery,
+    isPending,
   ]);
 
   useEffect(() => {
@@ -115,7 +139,7 @@ export default function ConferencesList({
             <ConferenceCard key={conference.id} conference={conference} />
           ))}
 
-          {isLoading &&
+          {isPending &&
             Array.from({ length: 2 }).map((_, index) => (
               <ConferenceCardSkeleton key={`loading-${index}`} />
             ))}
@@ -126,7 +150,7 @@ export default function ConferencesList({
       <div ref={loadMoreRef} aria-hidden="true" className="h-4" />
 
       {/* End State */}
-      {!hasMore && !isLoading && conferences.length > 0 && (
+      {!hasMore && !isPending && conferences.length > 0 && (
         <div className="text-center py-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#0d7ff2]/10 rounded-full text-[#0d7ff2]">
             <div className="w-2 h-2 rounded-full bg-[#0d7ff2] animate-pulse" />
@@ -138,7 +162,7 @@ export default function ConferencesList({
       )}
 
       {/* Empty State */}
-      {conferences.length === 0 && !isLoading && (
+      {conferences.length === 0 && !isPending && (
         <div className="text-center py-16">
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#223649]/10 flex items-center justify-center">
             <div className="w-8 h-8 rounded-full bg-[#223649]/20" />

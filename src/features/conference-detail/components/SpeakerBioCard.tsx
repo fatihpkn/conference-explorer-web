@@ -32,11 +32,7 @@ export default function SpeakerBioCard({
         <p className="text-primary font-medium text-sm mb-4">
           {speaker.bio || "Konferans Konuşmacısı"}
         </p>
-        {speaker.bio && (
-          <p className="text-slate-600 dark:text-slate-300 text-sm leading-relaxed mb-6">
-            {speaker.bio}
-          </p>
-        )}
+
         <div className="flex gap-4">
           <a
             className="text-slate-400 dark:text-slate-500 hover:text-primary transition-colors"
