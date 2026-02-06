@@ -1,6 +1,6 @@
 "use client";
 
-import { conferenceFilterParsers } from "@/shared/lib/nuqs/conferenceFilters.client";
+import { conferenceFilterParsers } from "../lib/conferenceFilters.client";
 import { Select, SelectItem } from "@heroui/react";
 import { useQueryState } from "nuqs";
 import { use, useTransition } from "react";
@@ -25,7 +25,6 @@ export default function YearFilter({ yearsPromise }: YearFilterProps) {
   return (
     <Select
       label="Year"
-      placeholder="All Years"
       selectedKeys={year ? [String(year)] : []}
       onSelectionChange={(keys) => {
         const selected = Array.from(keys)[0];

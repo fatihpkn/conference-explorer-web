@@ -2,7 +2,7 @@
 
 import type { Speaker } from "@/shared/lib/db/types/speaker.type";
 import type { Tag } from "@/shared/lib/db/types/tag.type";
-import { conferenceFilterParsers } from "@/shared/lib/nuqs/conferenceFilters.client";
+import { conferenceFilterParsers } from "../lib/conferenceFilters.client";
 import { useQueryState } from "nuqs";
 import { Suspense, useTransition } from "react";
 import FilterSkeleton from "../ui/FilterSkeleton";
@@ -25,11 +25,13 @@ export default function ConferenceFilter({
   locationsPromise,
   speakersPromise,
 }: ConferenceFilterProps) {
-  const [, startTransition] = useTransition();
   const [searchQuery, setSearchQuery] = useQueryState(
     "search",
     conferenceFilterParsers.search.withOptions({
-      startTransition,
+      limitUrlUpdates: {
+        method: "debounce",
+        timeMs: 160,
+      },
       shallow: false,
     })
   );
@@ -40,9 +42,7 @@ export default function ConferenceFilter({
         <SearchFilter
           value={searchQuery ?? ""}
           onChange={(value) =>
-            startTransition(() => {
-              void setSearchQuery(value && value.length > 0 ? value : null);
-            })
+            setSearchQuery(value && value.length > 0 ? value : null)
           }
         />
 

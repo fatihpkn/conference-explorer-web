@@ -1,7 +1,7 @@
 "use client";
 
 import type { Speaker } from "@/shared/lib/db/types/speaker.type";
-import { conferenceFilterParsers } from "@/shared/lib/nuqs/conferenceFilters.client";
+import { conferenceFilterParsers } from "../lib/conferenceFilters.client";
 import { Select, SelectItem } from "@heroui/react";
 import { useQueryState } from "nuqs";
 import { use, useTransition } from "react";

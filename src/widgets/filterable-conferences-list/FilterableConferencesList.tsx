@@ -1,3 +1,5 @@
+"use server";
+
 import {
   getConferences,
   getTags,
@@ -11,9 +13,10 @@ import type {
 } from "@/entities/conference";
 import ConferenceFilter from "@/features/conference-filter/components/ConferenceFilter";
 import ConferenceSkeleton from "@/features/conferences-list/ui/skeleton";
-import { searchParamsCache } from "@/shared/lib/nuqs/conferenceFilters.server";
+import { searchParamsCache } from "@/features/conference-filter/lib/conferenceFilters.server";
 import { Suspense, ViewTransition } from "react";
-import ConferencesListSection from "./components/ConferencesListSection";
+// import ConferencesListSection from "./components/ConferencesListSection";
+import ConferencesList from "@/features/conferences-list/components/ConferencesList";
 
 interface FilterableConferencesListProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
@@ -72,17 +75,13 @@ export async function FilterableConferencesList({
       <Suspense
         key={searchKey}
         fallback={
-          <ViewTransition>
+          <ViewTransition key={searchKey}>
             <ConferenceSkeleton count={limit} />
           </ViewTransition>
         }
       >
-        <ViewTransition name="conference-list">
-          <ConferencesListSection
-            dataPromise={initialDataPromise}
-            filters={normalizedFilters}
-            limit={limit}
-          />
+        <ViewTransition key={searchKey}>
+          <ConferencesList conferencesPromise={initialDataPromise} />
         </ViewTransition>
       </Suspense>
     </div>

@@ -1,10 +1,10 @@
 "use client";
 
-import { conferenceFilterParsers } from "@/shared/lib/nuqs/conferenceFilters.client";
 import { Select, SelectItem } from "@heroui/react";
 import { useQueryState } from "nuqs";
 import { use, useTransition } from "react";
 import { selectClassNames } from "./selectStyles";
+import { conferenceFilterParsers } from "../lib/parsers";
 
 interface LocationFilterProps {
   locationsPromise: Promise<string[]>;
@@ -27,7 +27,6 @@ export default function LocationFilter({
   return (
     <Select
       label="Location"
-      placeholder="All Locations"
       selectedKeys={location ? [location] : []}
       onSelectionChange={(keys) => {
         const selected = Array.from(keys)[0];

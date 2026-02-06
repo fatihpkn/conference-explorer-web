@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getConferences } from "@/entities/conference";
-import { loadConferenceFilters } from "@/shared/lib/nuqs/conferenceFilters.server";
+import { loadConferenceFilters } from "@/features/conference-filter/lib/conferenceFilters.server";
 import { sleep } from "@/shared/utils/sleep";
 
 export async function GET(request: Request) {

@@ -2,7 +2,7 @@
 
 import { use, useTransition } from "react";
 import type { Tag } from "@/shared/lib/db/types/tag.type";
-import { conferenceFilterParsers } from "@/shared/lib/nuqs/conferenceFilters.client";
+import { conferenceFilterParsers } from "../lib/conferenceFilters.client";
 import { Select, SelectItem } from "@heroui/react";
 import { useQueryState } from "nuqs";
 import { selectClassNames } from "./selectStyles";
@@ -25,7 +25,6 @@ export default function TagFilter({ tagsPromise }: TagFilterProps) {
   return (
     <Select
       label="Topic"
-      placeholder="All Topics"
       selectedKeys={tagId ? [String(tagId)] : []}
       onSelectionChange={(keys) => {
         const selected = Array.from(keys)[0];
