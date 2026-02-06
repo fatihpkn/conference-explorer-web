@@ -20,7 +20,6 @@
     "@dotenvx/dotenvx": "^1.52.0",
     "@heroui/react": "^2.8.8",
     "@heroui/theme": "^2.4.26",
-    "@vercel/postgres": "^0.10.0",
     "drizzle-orm": "^0.38.2",
     "framer-motion": "^12.31.0",
     "lucide-react": "^0.563.0",
