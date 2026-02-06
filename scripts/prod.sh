@@ -3,6 +3,6 @@ set -e
 
 echo "🚀 Starting production environment..."
 
-dotenvx run -- docker-compose up -d --build
+dotenvx run -f .env -f .env.production --overload -- docker-compose up -d --build
 
 echo "✅ Production environment started!"
