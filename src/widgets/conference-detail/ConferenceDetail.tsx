@@ -22,7 +22,6 @@ export default async function ConferenceDetail({
 
   return (
     <div>
-      {/* Breadcrumbs & Back Button */}
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
         <Suspense
           fallback={
@@ -43,23 +42,19 @@ export default async function ConferenceDetail({
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left Column: Video and Main Info */}
         <div className="lg:col-span-8 flex flex-col gap-6">
-          {/* Media Player */}
           <Suspense fallback={<ConferenceMediaSkeleton />}>
             <ViewTransition>
               <ConferenceMedia conferencePromise={conferencePromise} />
             </ViewTransition>
           </Suspense>
 
-          {/* Talk Description */}
           <Suspense fallback={<ConferenceInfoSkeleton />}>
             <ViewTransition>
               <ConferenceInfo conferencePromise={conferencePromise} />
             </ViewTransition>
           </Suspense>
 
-          {/* Speakers List */}
           <Suspense
             fallback={
               <div className="bg-white dark:bg-[#1a2632] p-6 rounded-xl shadow-sm border border-slate-100 dark:border-[#223649] animate-pulse">
@@ -77,7 +72,6 @@ export default async function ConferenceDetail({
           </Suspense>
         </div>
 
-        {/* Right Column: Speaker & Links */}
         <div className="lg:col-span-4 flex flex-col gap-6">
           <Suspense
             fallback={

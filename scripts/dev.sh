@@ -3,10 +3,11 @@ set -e
 
 echo "🚀 Starting development environment..."
 
-docker-compose up -d postgres
+
+docker-compose -f docker-compose.dev.yml up -d postgres
 
 echo "⏳ Waiting for PostgreSQL..."
-until docker-compose exec -T postgres pg_isready -U user -d conference_db 2>/dev/null; do
+until docker-compose -f docker-compose.dev.yml exec -T postgres pg_isready -U user -d conference_db 2>/dev/null; do
   sleep 1
 done
 
@@ -18,7 +19,7 @@ echo "📦 Running database migrations..."
 dotenvx run -- npm run db:push
 
 echo "🌱 Checking for existing data..."
-COUNT=$(docker-compose exec -T postgres psql -U user -d conference_db -t -c "SELECT COUNT(*) FROM conferences;" 2>/dev/null || echo "0")
+COUNT=$(docker-compose -f docker-compose.dev.yml exec -T postgres psql -U user -d conference_db -t -c "SELECT COUNT(*) FROM conferences;" 2>/dev/null || echo "0")
 if [ "$COUNT" -eq "0" ]; then
   echo "📊 No data found, seeding database..."
   dotenvx run -- npm run seed

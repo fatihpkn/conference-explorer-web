@@ -129,10 +129,8 @@ export default function ConferencesList({
         </div>
       </div>
 
-      {/* Load More Trigger */}
       <div ref={loadMoreRef} aria-hidden="true" className="h-4" />
 
-      {/* End State */}
       {!hasMore && !isPending && conferences.length > 0 && (
         <div className="text-center py-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-[#0d7ff2]/10 rounded-full text-[#0d7ff2]">
@@ -144,7 +142,6 @@ export default function ConferencesList({
         </div>
       )}
 
-      {/* Empty State */}
       {conferences.length === 0 && !isPending && (
         <div className="text-center py-16">
           <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-[#223649]/10 flex items-center justify-center">

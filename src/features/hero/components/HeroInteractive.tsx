@@ -66,7 +66,7 @@ export default function HeroInteractive({
   const conferences = use(upcomingConferences);
 
   if (!conferences.length) {
-    return <div className="absolute inset-0 bg-background animate-pulse" />;
+    return null;
   }
 
   const [[activeIndex, direction], setPagination] = useState<[number, number]>([

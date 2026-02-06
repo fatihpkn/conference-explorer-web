@@ -10,7 +10,6 @@ export interface ConferenceWithSpeakers {
   location: Conference["location"];
   startDate: Conference["startDate"];
   endDate: Conference["endDate"];
-  embedding: Conference["embedding"];
   createdAt: Conference["createdAt"];
   speakers: Speaker[];
 }

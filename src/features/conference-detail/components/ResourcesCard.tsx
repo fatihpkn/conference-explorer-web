@@ -38,7 +38,6 @@ export default function ResourcesCard({
         Konferans Kaynakları
       </h3>
       <div className="space-y-4">
-        {/* PDF Files */}
         {pdfFiles.map((pdf) => (
           <a
             key={pdf.id}
@@ -58,7 +57,6 @@ export default function ResourcesCard({
           </a>
         ))}
 
-        {/* Presentation Slides */}
         {presentations.map((presentation) => (
           <a
             key={presentation.id}
@@ -80,7 +78,6 @@ export default function ResourcesCard({
           </a>
         ))}
 
-        {/* Links */}
         {links.map((link) => (
           <a
             key={link.id}
@@ -103,7 +100,6 @@ export default function ResourcesCard({
           </a>
         ))}
 
-        {/* Default resources if no media files */}
         {pdfFiles.length === 0 &&
           links.length === 0 &&
           presentations.length === 0 && (

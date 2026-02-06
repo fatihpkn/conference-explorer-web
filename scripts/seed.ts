@@ -1,3 +1,4 @@
+import { config } from "@dotenvx/dotenvx";
 import { faker } from "@faker-js/faker";
 import { drizzle } from "drizzle-orm/node-postgres";
 import { Pool } from "pg";
@@ -8,10 +9,22 @@ import { conferenceSpeakers } from "../src/shared/lib/db/schemas/conference-spea
 import { conferenceTags } from "../src/shared/lib/db/schemas/conference-tag.schema";
 import { conferenceMedia } from "../src/shared/lib/db/schemas/conference-media.schema";
 
+config({ path: ".env.local" });
+
 async function seedDatabase() {
+  if (!process.env.DATABASE_URL) {
+    throw new Error("DATABASE_URL is not defined");
+  }
+
+  if (process.env.RUN_SEED !== "true" || !process.env.RUN_SEED) {
+    console.log("🪧 ☢️ Seeding is disabled");
+    return;
+  }
+
   console.log("🌱 Seeding database...");
 
   const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+
   const db = drizzle(pool);
 
   // Clear existing data
@@ -253,4 +266,7 @@ async function seedDatabase() {
   console.log("✅ Database seeded successfully!");
 }
 
-seedDatabase().catch(console.error);
+seedDatabase().catch((error) => {
+  console.error("❌ Error seeding database:", error);
+  process.exit(1);
+});

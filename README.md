@@ -35,13 +35,18 @@ POSTGRES_USER=user
 POSTGRES_PASSWORD=password
 POSTGRES_DB=conference_db
 POSTGRES_PORT=5432
+DEFAULT_SIMULATED_LATENCY=300
+RUN_SEED=true
 ```
+
+For **production deployments**, create a separate `.env` (or `.env.production`) file with the values your containers need.
+Keep `.env.local` strictly for local development overrides.
 
 ### 3. Development Setup
 
 #### Option A: Using Docker (Recommended)
 
-Start the development environment with PostgreSQL:
+Start the development environment with PostgreSQL (uses `docker-compose.dev.yml`):
 
 ```bash
 ./scripts/dev.sh

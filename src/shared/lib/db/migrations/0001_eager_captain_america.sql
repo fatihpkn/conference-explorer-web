@@ -1,0 +1,1 @@
+ALTER TABLE "conferences" DROP COLUMN "embedding";

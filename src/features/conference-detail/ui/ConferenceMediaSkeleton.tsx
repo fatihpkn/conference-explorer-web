@@ -1,12 +1,10 @@
 export default function ConferenceMediaSkeleton() {
   return (
     <>
-      {/* Media Player */}
       <div className="bg-white dark:bg-[#1a2632] rounded-xl overflow-hidden shadow-xl animate-pulse">
         <div className="bg-slate-200 dark:bg-[#223649] aspect-video" />
       </div>
 
-      {/* Headline & Actions */}
       <div className="bg-white dark:bg-[#1a2632] p-6 rounded-xl shadow-sm border border-slate-100 dark:border-[#223649] animate-pulse">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
           <div className="flex-1 space-y-3">

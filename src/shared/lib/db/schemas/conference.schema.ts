@@ -1,4 +1,4 @@
-import { pgTable, serial, text, timestamp, vector } from "drizzle-orm/pg-core";
+import { pgTable, serial, text, timestamp } from "drizzle-orm/pg-core";
 import { relations } from "drizzle-orm";
 
 import { conferenceSpeakers } from "./conference-speaker.schema";
@@ -12,7 +12,6 @@ export const conferences = pgTable("conferences", {
   location: text("location"),
   startDate: timestamp("start_date").notNull(),
   endDate: timestamp("end_date").notNull(),
-  embedding: vector("embedding", { dimensions: 1536 }),
   createdAt: timestamp("created_at").defaultNow(),
 });
 

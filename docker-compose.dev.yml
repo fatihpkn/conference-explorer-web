@@ -22,17 +22,20 @@ services:
   app:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
     environment:
-      - NODE_ENV=production
-      - DATABASE_URL=${DATABASE_URL:-postgresql://user:password@postgres:5432/conference_db}
+      - NODE_ENV=development
+      - DATABASE_URL=${DATABASE_URL}
       - NEXT_PUBLIC_APP_URL=${NEXT_PUBLIC_APP_URL:-http://localhost:3000}
-      - RUN_SEED=${RUN_SEED:-true}
     depends_on:
       postgres:
         condition: service_healthy
-    ports:
-      - "3000:3000"
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - /app/.next
 
 volumes:
   postgres_data:

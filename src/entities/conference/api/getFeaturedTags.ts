@@ -11,8 +11,6 @@ const DEFAULT_LIMIT = 5;
 export async function getFeaturedTags(
   limit: number = DEFAULT_LIMIT
 ): Promise<FeaturedTag[]> {
-  console.log("[FEATURED TAGS] Request");
-
   await sleep();
 
   const result = await db

@@ -43,7 +43,6 @@ export default function ConferenceMedia({
 
   return (
     <>
-      {/* Media Player */}
       <div className="bg-white dark:bg-[#1a2632] rounded-xl overflow-hidden shadow-xl">
         <div className="relative flex items-center justify-center bg-black bg-cover bg-center aspect-video">
           {selectedMedia ? (
@@ -88,7 +87,6 @@ export default function ConferenceMedia({
             </div>
           )}
 
-          {/* Play button overlay for video */}
           {selectedMedia?.type === "video" && (
             <button className="absolute inset-0 flex shrink-0 items-center justify-center rounded-full size-20 bg-primary/90 text-white hover:scale-110 transition-transform shadow-lg mx-auto">
               <Play
@@ -101,7 +99,6 @@ export default function ConferenceMedia({
         </div>
       </div>
 
-      {/* Headline & Actions */}
       <div className="bg-white dark:bg-[#1a2632] p-6 rounded-xl shadow-sm border border-slate-100 dark:border-[#223649]">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">
           <div className="flex-1">
@@ -123,7 +120,6 @@ export default function ConferenceMedia({
               {duration > 1 && ` - ${formatDate(conference.endDate)}`}
             </p>
           </div>
-          {/* Actions Bar Integration */}
           <div className="flex flex-wrap gap-2 md:justify-end">
             <div className="flex flex-col items-center gap-1 group cursor-pointer">
               <div className="rounded-full bg-slate-100 dark:bg-[#223649] p-3 text-slate-600 dark:text-white group-hover:bg-primary/20 group-hover:text-primary transition-colors">

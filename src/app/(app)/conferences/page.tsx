@@ -6,6 +6,7 @@ export const metadata = {
   description: "List of conferences",
 };
 
+export const dynamic = "force-dynamic";
 interface ConferencesPageProps {
   searchParams: Promise<Record<string, string | string[] | undefined>>;
 }
