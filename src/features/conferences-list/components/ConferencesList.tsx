@@ -1,7 +1,6 @@
 "use client";
 
 import {
-  ViewTransition,
   useCallback,
   useEffect,
   useMemo,
@@ -56,22 +55,6 @@ export default function ConferencesList({
   const hasMore = useMemo(() => {
     return (meta.page ?? 1) < (meta.totalPages ?? 1);
   }, [meta.page, meta.totalPages]);
-
-  const transitionGroupName = useMemo(() => {
-    return [
-      filters.search ?? "",
-      filters.tagId ?? "all",
-      filters.year ?? "any",
-      filters.location ?? "",
-      filters.speakerId ?? "any",
-    ].join("-");
-  }, [
-    filters.search,
-    filters.tagId,
-    filters.year,
-    filters.location,
-    filters.speakerId,
-  ]);
 
   const fetchNextPage = useCallback(async () => {
     if (isPending || !hasMore) return;
